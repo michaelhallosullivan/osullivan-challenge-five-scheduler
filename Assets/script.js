@@ -24,3 +24,41 @@ $(function () {
 
 var today = dayjs();
 $("#currentDay").text(today.format("MMMM D, YYYY"));
+
+generateHours();
+
+function generateHours() {
+  for (i = 9; i < 18; i++) {
+  var hourX = today.hour(i);
+  var hourContainer = document.createElement("div");
+  hourContainer.id = "hour-"+i+"-container";
+  hourContainer.className = "row time-block";
+  if (hourX.$H < today.hour()) {
+    hourContainer.classList.add("past");
+    }
+  if (hourX.$H === today.hour()) {
+    hourContainer.classList.add("present");
+    }
+  if (hourX.$H > today.hour()) {
+    hourContainer.classList.add("future");
+    };
+  var hourTitle = document.createElement("div");
+  hourTitle.id = "hour-"+i;
+  hourTitle.className = "col-2 col-md-1 hour text-center py-3";
+  hourTitle.textContent = hourX.format("h A");
+  var task = document.createElement("textarea");
+  task.id = "task";
+  task.className = "col-8 col-md-10 description";
+  task.rows = "3";
+  var saveButton = document.createElement("button");
+  saveButton.id = "save-button";
+  saveButton.className = "btn saveBtn col-2 col-md-1";
+  saveButton.setAttribute("aria-label", "save");
+  var saveIcon = document.createElement("i");
+  saveIcon.className = "fas fa-save";
+  saveIcon.setAttribute("aria-hidden", "true");
+  $("#all-hours").append(hourContainer);
+  hourContainer.append(hourTitle, task, saveButton);
+  saveButton.append(saveIcon);
+  }
+}
