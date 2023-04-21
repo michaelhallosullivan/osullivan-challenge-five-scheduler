@@ -9,17 +9,9 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
 });
 
 var today = dayjs();
@@ -46,10 +38,10 @@ function generateHours() {
   hourTitle.id = "hour-"+i;
   hourTitle.className = "col-2 col-md-1 hour text-center py-3";
   hourTitle.textContent = hourX.format("h A");
-  var task = document.createElement("textarea");
-  task.id = "task";
-  task.className = "col-8 col-md-10 description";
-  task.rows = "3";
+  var taskArea = document.createElement("textarea");
+  taskArea.id = "hour-"+i+"-task";
+  taskArea.className = "col-8 col-md-10 description";
+  taskArea.rows = "3";
   var saveButton = document.createElement("button");
   saveButton.id = "save-button";
   saveButton.className = "btn saveBtn col-2 col-md-1";
@@ -58,7 +50,15 @@ function generateHours() {
   saveIcon.className = "fas fa-save";
   saveIcon.setAttribute("aria-hidden", "true");
   $("#all-hours").append(hourContainer);
-  hourContainer.append(hourTitle, task, saveButton);
+  hourContainer.append(hourTitle, taskArea, saveButton);
   saveButton.append(saveIcon);
+  console.log(taskArea.id);
   }
 }
+
+function saveTask() {
+  var savedTask = $("hour-"+i+"-task").textContent;
+  localStorage.setItem("task", savedTask);
+}
+
+$("#save-button").click(saveTask);
