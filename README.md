@@ -34,7 +34,7 @@ This scheduler can be used to schedule daily events/meetings.
 
 ## Credits
 
-Starter code created by https://github.com/coding-boot-camp/crispy-octo-meme. JavaScript libraries provided by jQuery (https://jquery.com/) and Day.js (https://day.js.org/). Additional functionality created by Michael O'Sullivan.
+Starter code created by https://github.com/coding-boot-camp/crispy-octo-meme. JavaScript libraries provided by jQuery (https://jquery.com/) and Day.js (https://day.js.org/). CSS framework by Bootstrap (https://getbootstrap.com/). Fira Sans provided by Google Fonts (https://fonts.google.com/specimen/Fira+Sans). Icons provided by Font Awesome (https://fontawesome.com/). Additional functionality created by Michael O'Sullivan.
 
 ## License
 
