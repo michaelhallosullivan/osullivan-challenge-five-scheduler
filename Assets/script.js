@@ -1,23 +1,10 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-$(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-});
-
 var today = dayjs();
 $("#currentDay").text(today.format("MMMM D, YYYY"));
 
+var taskIDs = [];
+
 generateHours();
+showTasks();
 
 function generateHours() {
   for (i = 9; i < 18; i++) {
@@ -39,8 +26,9 @@ function generateHours() {
   hourTitle.className = "col-2 col-md-1 hour text-center py-3";
   hourTitle.textContent = hourX.format("h A");
   var taskArea = document.createElement("textarea");
-  taskArea.id = "hour-"+i+"-task";
-  taskArea.className = "col-8 col-md-10 description";
+  var hourIDs = "hour-"+i+"-task";
+  taskArea.id = hourIDs;
+  taskArea.className = "col-8 col-md-10 description text";
   taskArea.rows = "3";
   var saveButton = document.createElement("button");
   saveButton.id = "save-button";
@@ -52,13 +40,30 @@ function generateHours() {
   $("#all-hours").append(hourContainer);
   hourContainer.append(hourTitle, taskArea, saveButton);
   saveButton.append(saveIcon);
-  console.log(taskArea.id);
+  taskIDs.push(hourIDs);
   }
 }
 
 function saveTask() {
-  var savedTask = $("hour-"+i+"-task").textContent;
-  localStorage.setItem("task", savedTask);
+  var taskID = $(this).siblings("textarea").attr("id");
+  var savingIndex = taskIDs.indexOf(taskID);
+  var savingTask = $("#"+taskID).val();
+  localStorage.setItem("task", savingTask);
+  localStorage.setItem("index", savingIndex);
+}
+
+function showTasks() {
+  var savedTask = localStorage.getItem("task");
+  var savedIndex = localStorage.getItem("index");
+  var savedTaskID = taskIDs[savedIndex];
+  var taskValue = $("#"+savedTaskID).val();
+  //localStorage.removeItem("task");
+  if (savedTask === null) {
+    console.log("nothing stored");
+  }
+  else {
+    taskValue = savedTask;
+  }
 }
 
 $("#save-button").click(saveTask);
